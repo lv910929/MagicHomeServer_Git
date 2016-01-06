@@ -1,0 +1,96 @@
+
+.blk_18 {
+	FONT-SIZE: 12px;
+	OVERFLOW: hidden;
+	WIDTH: 510px;
+	ZOOM: 1;
+	margin: auto;
+}
+
+.blk_18 .pcont {
+	OVERFLOW: hidden;
+	WIDTH: 480px;
+	overflow: hidden;
+	float: left;
+	margin: auto;
+}
+
+.blk_18_125 {
+	height: 125px;
+}
+
+.blk_18_480 {
+	height: 248px;
+}
+
+.blk_18 .ScrCont {
+	WIDTH: 32766px;
+	ZOOM: 1
+}
+
+.blk_18 #List1_1 {
+	FLOAT: left;
+	padding-left: 10px;
+}
+
+.blk_18 #List2_1 {
+	FLOAT: left;
+}
+
+.blk_18 .LeftBotton {
+	FLOAT: left;
+	HEIGHT: 16px;
+	text-align: left;
+	padding-top: 56px;
+}
+
+.blk_18 .LeftBotton a {
+	width: 11px;
+	display: block;
+}
+
+.blk_18 .RightBotton {
+	FLOAT: right;
+	WIDTH: 10px;
+	HEIGHT: 17px;
+	text-align: left;
+	padding-top: 56px;
+}
+
+.blk_18 .RightBotton a {
+	display: block;
+	cursor: pointer;
+}
+
+.blk_18 .LeftBotton:hover {
+	BACKGROUND-POSITION: 0px 0px;
+}
+
+.blk_18 .RightBotton:hover {
+	BACKGROUND-POSITION: 0px 0px;
+}
+
+.blk_18 .pl IMG {
+	DISPLAY: block;
+	CURSOR: pointer;
+	BORDER-TOP-STYLE: none;
+	BORDER-RIGHT-STYLE: none;
+	BORDER-LEFT-STYLE: none;
+	BORDER-BOTTOM-STYLE: none
+}
+
+.blk_18 .gdpic {
+	float: left;
+	text-align: center;
+	width: 60px;
+	height: 60px;
+	margin-top: 5px;
+}
+
+.blk_18 .gdpic1 {
+	FLOAT: left;
+	text-align: center;
+	width: 160px;
+	height: 250px;
+	margin: auto;
+}

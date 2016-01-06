@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.RepairDao">
+
+	<resultMap type="com.lencity.magichome.model.Repair" id="repairResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="device_type" jdbcType="INTEGER" column="device_type" />
+		<result property="account_name" jdbcType="VARCHAR" column="account_name" />
+		<result property="problem_reason" jdbcType="VARCHAR" column="problem_reason" />
+		<result property="begin_time" jdbcType="VARCHAR" column="begin_time" />
+		<result property="end_time" jdbcType="VARCHAR" column="end_time" />
+		<result property="repair_status" jdbcType="INTEGER" column="repair_status" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,device_type,account_name,problem_reason,begin_time,end_time,repair_status</sql>
+
+	<select id="getRepairByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Repair"
+		resultMap="repairResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from repair_records where id=#{id}
+	</select>
+	
+	<select id="getRepairsByaccount" parameterType="string" resultType="list"
+		resultMap="repairResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from repair_records where account_name=#{account_name}
+	</select>
+
+	<select id="getAllRepairs" resultType="list" resultMap="repairResultMap">
+		select
+		<include refid="commonColumns"/> 
+		 from repair_records
+	</select>
+	
+	<select id="getRepairsByPage" parameterType="java.util.Map" resultMap="repairResultMap">
+		select
+		<include refid="commonColumns"/> 
+		 from repair_records
+		 <where>
+	    	<if test="repair.account_name != null and !&quot;&quot;.equals(repair.account_name.trim())">
+		    	and account_name like '%' #{repair.account_name} '%'
+		    </if>
+		    <if test="repair.repair_status != 0 ">
+		    	and repair_status = #{repair.repair_status}
+		    </if>
+    	</where>
+   		 order by id
+	</select>
+
+	<insert id="insertRepair" parameterType="com.lencity.magichome.model.Repair">
+		insert into repair_records(device_type,account_name,problem_reason,begin_time,repair_status) 
+		values(#{device_type},#{account_name},#{problem_reason},#{begin_time},#{repair_status})
+	</insert>
+	
+	<update id="updateRepair" parameterType="com.lencity.magichome.model.Repair">
+		update repair_records set 
+				begin_time = #{begin_time},
+				end_time = #{end_time},
+				repair_status = #{repair_status}
+        where id = #{id}  
+	</update>
+	
+	<delete id="removeRepair" parameterType="INTEGER">
+		delete from repair_records where id=#{id}
+	</delete>
+
+</mapper>

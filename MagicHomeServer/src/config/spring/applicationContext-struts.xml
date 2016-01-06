@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd  
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd  
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd  
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd"
+	default-autowire="byName">
+	
+	<bean id="platformAction" class="com.lencity.magichome.action.PlatformAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Account -->
+	<bean id="accountManagerAction" class="com.lencity.magichome.action.AccountManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- AdminUser -->
+	<bean id="adminUserManagerAction" class="com.lencity.magichome.action.AdminUserManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Device -->
+	<bean id="deviceManagerAction" class="com.lencity.magichome.action.DeviceManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Feedback -->
+	<bean id="feedbackManagerAction" class="com.lencity.magichome.action.FeedbackManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Repair -->
+	<bean id="repairManagerAction" class="com.lencity.magichome.action.RepairManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Software -->
+	<bean id="softwareManagerAction" class="com.lencity.magichome.action.SoftwareManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Domain -->
+	<bean id="domainManagerAction" class="com.lencity.magichome.action.DomainManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Hardware -->
+	<bean id="hardwareManagerAction" class="com.lencity.magichome.action.HardwareManagerAction"
+		scope="prototype">
+	</bean>
+
+	<!-- Repair_Progress -->
+	<bean id="repairProgressAction" class="com.lencity.magichome.action.RepairProgressAction"
+		scope="prototype">
+	</bean>
+
+	<!-- File -->
+	<bean id="documentManagerAction" class="com.lencity.magichome.action.DocumentManagerAction"
+		scope="prototype">
+	</bean>
+	
+	<!-- ClientInfo -->
+	<bean id="clientInfoManagerAction" class="com.lencity.magichome.action.ClientInfoManagerAction"
+		scope="prototype">
+	</bean>
+</beans>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>智能家居管理系统</title>
+		<link rel="stylesheet" href="comm/js/easyui/themes/default/easyui.css" type="text/css"></link>
+		<link rel="stylesheet" href="comm/css/base.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="comm/css/all.css" />
+		<link rel="stylesheet" type="text/css" href="comm/css/form.css" />
+		<script type="text/javascript" src="comm/js/jquery.min.js"></script>
+		<script type="text/javascript" src="comm/js/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../comm/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript">
+		/**
+		 * 修改当前页码，调用后台重新查询
+		 */
+		function changeCurrentPage(currentPage) {
+			$("#currentPage").val(currentPage);
+			$("#repair_progressForm").submit();
+		}
+		
+		function openDialog(repairId){
+			$("#repair_id").val(repairId);
+			$("#repair_progress_dialog").dialog({
+				top: 50,
+				draggable: false,
+				resizable: false,
+				modal:true
+			}).show();
+		}
+		
+		</script>
+
+  </head>
+  
+  <body style="background: #e1e9eb;">
+  	<form action="repairProgress!list" id="repair_progressForm" method="post">
+			<input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+			
+			<div class="right">
+				<div class="rightCont">
+					<p class="g_title fix">维修进度列表 <a class="btn03" title="${repair_id!}" onclick="openDialog(${repair_id!});">新增维修进度</a></p>
+					<div class="zixun fix">
+						<table class="tab2" width="100%">
+							<tbody>
+								<tr>
+								    <th>维修时间</th>
+								    <th>维修描述</th>
+								</tr>
+								<#if repairProgresses?? && repairProgresses?size &gt; 0>
+								 <#list repairProgresses as repairProgress>
+									<tr>
+										<td>${repairProgress.repair_time!}</td>
+							    		<td>${repairProgress.repair_info!}</td>
+									</tr>
+								 </#list>
+	    						</#if>
+							</tbody>
+						</table>
+						<div class='page fix'>
+							共 <b>${page.totalNumber!}</b> 条
+								<a href="javascript:changeCurrentPage('1')" class='first'>首页</a>
+								<a href="javascript:changeCurrentPage('${page.currentPage-1}')" class='pre'>上一页</a>
+							当前第<span>${page.currentPage!}/${page.totalPage!}</span>页
+								<a href="javascript:changeCurrentPage('${page.currentPage+1}')" class='next'>下一页</a>
+								<a href="javascript:changeCurrentPage('${page.totalPage}')" class='last'>末页</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	    </form>
+		<div id="repair_progress_dialog" class="dialog" title="新增维修进度" style="width:450px;height:260px;">
+			<form action="repairProgress!add" method="post" class="smart-green">
+				<label>
+				<span>维修编号：</span>
+				<input id="repair_id" type="text" name="repair_id" readonly="readonly" />
+				</label>
+				<label>
+				<span>维修描述：</span>
+				<input id="repair_info" type="text" name="repair_info" class="easyui-validatebox" required="true"/>
+				</label>
+				<label>
+				<span>&nbsp;</span>
+				<input type="submit" class="button" value="提交" />
+				</label>
+			</form>
+		</div>
+  </body>
+</html>

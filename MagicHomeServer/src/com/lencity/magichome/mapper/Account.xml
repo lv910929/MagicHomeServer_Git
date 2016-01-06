@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.AccountDao">
+
+	<resultMap type="com.lencity.magichome.model.Account" id="accountResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="accountName" jdbcType="VARCHAR" column="accountName" />
+		<result property="password" jdbcType="VARCHAR" column="password" />
+		<result property="mobile" jdbcType="VARCHAR" column="mobile" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,accountName,password,mobile</sql>
+
+	<select id="getAccountById" parameterType="INTEGER" resultType="com.lencity.magichome.model.Account"
+		resultMap="accountResultMap">
+		select
+		<include refid="commonColumns"/> 
+	    from account where id=#{id}
+	</select>
+
+	<select id="getAllAccounts" resultType="list" resultMap="accountResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from account
+	</select>
+	
+	<select id="getAccountByName" parameterType="string" resultType="com.lencity.magichome.model.Account"
+		resultMap="accountResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from account where accountName=#{accountName}
+	</select>
+	
+	<select id="getAccountsByPage" parameterType="java.util.Map" resultMap="accountResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+        from account  
+       <where>
+	    	<if test="account.accountName != null and !&quot;&quot;.equals(account.accountName.trim())">
+		    	and accountName like '%' #{account.accountName} '%'
+		    </if>
+		    <if test="account.mobile != null and !&quot;&quot;.equals(account.mobile.trim())">
+		    	and mobile like '%' #{account.mobile} '%'
+		    </if>
+    	</where>
+   		 order by id
+	</select>
+
+	<insert id="insertAccount" parameterType="com.lencity.magichome.model.Account">
+		insert into account(accountName,password,mobile) values(#{accountName},#{password},#{mobile})
+	</insert>
+	
+	<update id="editAccount" parameterType="com.lencity.magichome.model.Account">
+		update account set  
+        accountName = #{accountName},  
+        password = #{password},
+        mobile=#{mobile} 
+        where id = #{id}  
+	</update>
+	
+	<delete id="removeAccount" parameterType="INTEGER">
+		delete from account where id=#{id}
+	</delete>
+
+</mapper>

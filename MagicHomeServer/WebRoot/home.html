@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>后台管理系统</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="assets/css/dpl-min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/bui-min.css" rel="stylesheet" type="text/css" />
+<link href="assets/css/main-min.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+	<div class="header">
+
+		<div class="dl-title"><span class="">MagicHome</span></div>
+		<div class="dl-log">
+			欢迎您，<span class="dl-log-user">${Session ["session_admin_user"].name!} </span><a
+				href="logout" title="退出系统" class="dl-log-quit">[退出]</a>
+		</div>
+	</div>
+	<div class="content">
+		<div class="dl-main-nav">
+			<div class="dl-inform">
+				<div class="dl-inform-title">
+					<s class="dl-inform-icon dl-up"></s>
+				</div>
+			</div>
+			<ul id="J_Nav" class="nav-list ks-clear">
+				<li class="nav-item dl-selected">
+					<div class="nav-item-inner nav-home">首页</div>
+				</li>
+				<#if Session ["session_admin_user"].user_role?? && Session ["session_admin_user"].user_role == 0><#else>
+					<#if (Session ["session_admin_user"].user_role??) && (Session ["session_admin_user"].user_role == 1||(Session ["session_admin_user"].user_role == 3))>
+					<li class="nav-item">
+						<div class="nav-item-inner nav-order">中控管理</div>
+					</li>
+					<li class="nav-item">
+						<div class="nav-item-inner nav-inventory">软件管理</div>
+					</li>
+					</#if>
+					<#if Session ["session_admin_user"].user_role?? && (Session ["session_admin_user"].user_role == 2||(Session ["session_admin_user"].user_role == 3))>
+					<li class="nav-item">
+						<div class="nav-item-inner nav-marketing">售后管理</div>
+					</li>
+					</#if>
+					<#if Session ["session_admin_user"].user_role?? && Session ["session_admin_user"].user_role == 3>
+					<li class="nav-item">
+						<div class="nav-item-inner nav-supplier">管理员</div>
+					</li>
+					</#if>
+				</#if>
+			</ul>
+		</div>
+		<ul id="J_NavContent" class="dl-tab-conten">
+		</ul>
+	</div>
+	<script type="text/javascript" src="assets/js/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/bui-min.js"></script>
+	<script type="text/javascript" src="assets/js/common/main-min.js"></script>
+	<script type="text/javascript" src="assets/js/config-min.js"></script>
+	<#if Session ["session_admin_user"].user_role?? && Session ["session_admin_user"].user_role == 3>
+	<script>
+		BUI.use('common/main', function() {
+			var config = [ {
+	            id : 'chart',
+	            homePage:'data', //默认打开的主页
+	            menu : [{
+	              text : '首页',
+	              items:[
+	              	  {id:'data',text:'中控数据',href:'chart/client_data.jsp',closeable : false},
+	                  {id:'data',text:'最新数据',href:'chart/device_data.jsp'}
+	              ]
+	            }]
+			},  {
+	            id : 'device',
+	            homePage:'deviceList', //默认打开的主页
+	            menu : [{
+	              text : '中控管理',
+	              items:[
+	                  {id:'deviceList',text:'中控设备管理',href:'device!list',closeable : false},
+	                  {id:'clientList',text:'中控数据管理',href:'clientInfo!list'},
+	                  {id:'accountList',text:'用户账号管理',href:'account!list'},
+	                  {id:'doamin',text:'域名SN码管理',href:'domain!list'}
+	              ]
+	            }]
+			}, {
+	            id : 'software',
+	            homePage:'softwareList', //默认打开的主页
+	            menu : [{
+	              text : '软件管理',
+	              items:[	
+	                  {id:'softwareList',text:'应用程序版本管理',href:'software!list',closeable : false},
+	                  {id:'HardwareData',text:'硬件版本数据管理',href:'hardware!list'},
+	                  {id:'fileList',text:'其他文件管理',href:'document!list'}
+	              ]
+	            }]
+			} , {
+	            id : 'after-sale',
+	            homePage:'feedbackList', //默认打开的主页
+	            menu : [{
+	              text : '售后管理',
+	              items:[
+	              	  {id:'feedbackList',text:'用户反馈信息管理',href:'feedback!list',closeable : false},
+	                  {id:'repairRecords',text:'维修记录信息管理',href:'repair!list'}
+	              ]
+	            }]
+			} , {
+	            id : 'admin',
+	            homePage:'adminUser', //默认打开的主页
+	            menu : [{
+	              text : '管理员',
+	              items:[
+	                  {id:'adminUser',text:'管理员管理',href:'adminUser!list',closeable : false},
+	                  {id:'log',text:'日志管理',href:'log!list'}
+	              ]
+	            }]
+			}];
+			new PageUtil.MainPage({
+				modulesConfig : config
+			});
+		});
+	</script>
+	</#if>
+	<#if (Session ["session_admin_user"].user_role??) && (Session ["session_admin_user"].user_role == 1)>
+	<script>
+		BUI.use('common/main', function() {
+			var config = [ {
+	            id : 'chart',
+	            homePage:'data', //默认打开的主页
+	            menu : [{
+	              text : '首页',
+	              items:[
+	                  {id:'data',text:'最新数据',href:'chart/data.html',closeable : false}
+	              ]
+	            }]
+			},  {
+	            id : 'device',
+	            homePage:'deviceList', //默认打开的主页
+	            menu : [{
+	              text : '中控管理',
+	              items:[
+	                  {id:'deviceList',text:'中控设备管理',href:'device!list',closeable : false},
+	                  {id:'accountList',text:'用户账号管理',href:'account!list'},
+	                  {id:'doamin',text:'域名SN码管理',href:'domain!list'}
+	              ]
+	            }]
+			}, {
+	            id : 'software',
+	            homePage:'softwareList', //默认打开的主页
+	            menu : [{
+	              text : '软件管理',
+	              items:[	
+	                  {id:'softwareList',text:'应用程序版本管理',href:'software!list',closeable : false},
+	                  {id:'HardwareData',text:'硬件版本数据管理',href:'hardware!list'},
+	                  {id:'fileList',text:'其他文件管理',href:'document!list'}
+	              ]
+	            }]
+			}  ];
+			new PageUtil.MainPage({
+				modulesConfig : config
+			});
+		});
+	</script>
+	</#if>
+	<#if Session ["session_admin_user"].user_role?? && Session ["session_admin_user"].user_role == 2>
+	<script>
+		BUI.use('common/main', function() {
+			var config = [ {
+	            id : 'chart',
+	            homePage:'data', //默认打开的主页
+	            menu : [{
+	              text : '首页',
+	              items:[
+	                  {id:'data',text:'最新数据',href:'chart/data.html',closeable : false}
+	              ]
+	            }]
+			}, {
+	            id : 'after-sale',
+	            homePage:'feedbackList', //默认打开的主页
+	            menu : [{
+	              text : '售后管理',
+	              items:[
+	              	  {id:'feedbackList',text:'用户反馈信息管理',href:'feedback!list',closeable : false},
+	                  {id:'repairRecords',text:'维修记录信息管理',href:'repair!list'}
+	              ]
+	            }]
+			} ];
+			new PageUtil.MainPage({
+				modulesConfig : config
+			});
+		});
+	</script>
+	</#if>
+
+</body>
+</html>

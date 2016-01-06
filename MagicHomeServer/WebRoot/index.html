@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>MagicHome服务端</title>
+<link rel="stylesheet" type="text/css" href="comm/css/register.css" />
+<script src="comm/js/jquery-1.8.0.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$(function() {
+		//绑定一个登录事件
+		$("input[name='login']").click(function() {
+			//登录之前需要验证是否输入
+			if ($.trim($("#name").val()) == "") {
+				alert("用户名不能为空!");
+				$("#name").focus();
+				return;
+			}
+			if ($.trim($("#password").val()) == "") {
+				alert("密码不能为空!");
+				$("#password").focus();
+				return;
+			}
+			//提交表单
+			$("#signup_form").submit();
+
+		});
+		
+		$("input[name='register']").click(function(){
+			window.location.href = "register.html";
+		});
+	});
+</script>
+</head>
+<body>
+
+	<div class='signup_container'>
+		<h1 class='signup_title'>用户登陆</h1>
+		<img src='comm/images/people.png' id='admin' />
+		<form class="signup_form_form" id="signup_form" method="post"
+			action="login">
+			<div id="signup_forms" class="signup_forms clearfix">
+
+				<div class="form_row first_row">
+					<label for="signup_email">请输入用户名</label> 
+					<input type="text" name="name" placeholder="请输入用户名" id="name" data-required="required">
+				</div>
+				<div class="form_row">
+					<label for="signup_password">请输入密码</label>
+					<input type="password" name="password" placeholder="请输入密码" id="password" data-required="required">
+				</div>
+
+			</div>
+			<div class="login-btn-set">
+				<input type="button" class="tabSub" value="登录" name="login" /> 
+				<input name="register" class="tabSub" type="button" value="注册" />
+			</div>
+		</form>
+		<p class='copyright'>&copy;版权所有:蓝城科技</p>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>智能家居管理系统</title>
+		<link rel="stylesheet" href="comm/js/easyui/themes/default/easyui.css" type="text/css"></link>
+		<link rel="stylesheet" href="comm/css/base.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="comm/css/all.css" />
+		<link rel="stylesheet" type="text/css" href="comm/css/form.css" />
+		<script type="text/javascript" src="comm/js/jquery.min.js"></script>
+		<script type="text/javascript" src="comm/js/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../comm/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript">
+			$(function(){
+				
+				$("a[name='begin_repair']").click(function(){
+					
+					var id = $.trim($(this).attr("title"));
+					if(window.confirm("已经开始维修了吗?")){
+						window.location = "repair!begin?id="+id;
+					}
+				});
+				
+				$("a[name='end_repair']").click(function(){
+					
+					var id = $.trim($(this).attr("title"));
+					if(window.confirm("维修已经完成了吗?")){
+						window.location = "repair!finish?id="+id;
+					}
+				});
+			});
+		</script>
+  
+  </head>
+  
+  <body style="background: #e1e9eb;">
+		<form action="repair!detail" method="post" class="smart-green" id="repairDetailForm" name="repairDetailForm">
+		<#if repair??>
+			<label>
+			<span>用户名：</span>
+			<input id="account_name" type="text" name="account_name" class="easyui-validatebox" value="${repair.account_name!}" readonly="readonly"/>
+			</label>
+			<label>
+			<span>设备类型:</span>
+			<select id="device_type" name="device_type" onmousedown="return false;">
+				<option value="1" <#if repair.device_type?? && repair.device_type == 1>selected</#if>>中控设备</option>
+				<option value="2" <#if repair.device_type?? && repair.device_type == 2>selected</#if>>非中控设备</option>
+			</select>
+			</label>	
+			<label>
+			<span>故障原因：</span>
+			<input id="problem_reason" type="text" name="problem_reason" class="easyui-validatebox" value="${repair.problem_reason!}" readonly="readonly"/>
+			</label>
+			<label>
+			<span>维修状态:</span>
+			<select name="repair_status" onmousedown="return false;">
+				<option value="1" <#if repair.repair_status?? && repair.repair_status==1>selected</#if>>尚未开始</option>
+				<option value="2" <#if repair.repair_status?? && repair.repair_status==2>selected</#if>>正在维修</option>
+				<option value="3" <#if repair.repair_status?? && repair.repair_status==3>selected</#if>>维修结束</option>
+			</select>
+			</label>
+			<label>
+				<span>具体操作:</span></br>
+				<span>&nbsp;</span></br>
+	   			<#if repair.repair_status?? && repair.repair_status == 1>
+	   				<a class="button" href="javascript:void(0)" name="begin_repair" title="${repair.id!}">开始维修</a>
+	   			</#if>
+	   			<#if repair.repair_status?? && repair.repair_status == 2>
+	   		 		<a class="button" href="javascript:void(0)" name="end_repair" title="${repair.id!}">维修完成</a>
+	   		 	</#if>
+			</label>
+			<#else>
+			<span>空的</span>
+		</#if>
+		</form>
+  </body>
+</html>

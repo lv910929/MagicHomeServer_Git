@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.DomainDao">
+
+	<resultMap type="com.lencity.magichome.model.Domain" id="domainResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="domain_name" jdbcType="VARCHAR" column="domain_name" />
+		<result property="sn_code" jdbcType="VARCHAR" column="sn_code" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,domain_name,sn_code</sql>
+
+	<select id="getDomainByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Domain"
+		resultMap="domainResultMap">
+		select
+		<include refid="commonColumns"/>
+		from domain_sn where id=#{id}
+	</select>
+	
+	<select id="getDomainBySN" parameterType="string" resultType="com.lencity.magichome.model.Domain"
+		resultMap="domainResultMap">
+		select
+		<include refid="commonColumns"/>
+		from domain_sn where sn_code=#{sn_code}
+	</select>
+	
+	<select id="getDomainByDomain" parameterType="string" resultType="com.lencity.magichome.model.Domain"
+		resultMap="domainResultMap">
+		select
+		<include refid="commonColumns"/>
+		from domain_sn where domain_name=#{domain_name}
+	</select>
+	
+	<select id="getDomainsByPage" parameterType="java.util.Map" resultMap="domainResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from domain_sn 
+		<where>
+	    	<if test="domain.domain_name != null">
+		    	and domain_name like '%' #{domain.domain_name} '%'
+		    </if>
+		    <if test="domain.sn_code != null">
+		    	and sn_code like '%' #{domain.sn_code} '%' 
+		    </if>
+    	</where>
+   		order by id
+	</select>
+
+	<select id="getAllDomains" resultType="list" resultMap="domainResultMap">
+		select
+		<include refid="commonColumns"/>
+		from domain_sn
+	</select>
+
+	<insert id="insertDomain" parameterType="com.lencity.magichome.model.Domain">
+		insert into domain_sn(domain_name,sn_code) values(#{domain_name},#{sn_code})
+	</insert>
+	
+	<update id="editDomain" parameterType="com.lencity.magichome.model.Domain">
+		update domain_sn set  
+        domain_name = #{domain_name}  
+        where id = #{id}  
+	</update>
+	
+	<delete id="removeDomain" parameterType="INTEGER">
+		delete from domain_sn where id=#{id}
+	</delete>
+
+</mapper>

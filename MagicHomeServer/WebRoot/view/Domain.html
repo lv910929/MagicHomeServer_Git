@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>智能家居管理系统</title>
+		<link rel="stylesheet" href="comm/js/easyui/themes/default/easyui.css" type="text/css"></link>
+		<link rel="stylesheet" href="comm/css/base.css" type="text/css"></link>
+		<link rel="stylesheet" type="text/css" href="comm/css/all.css" />
+		<link rel="stylesheet" type="text/css" href="comm/css/form.css" />
+		<script type="text/javascript" src="comm/js/jquery.min.js"></script>
+		<script type="text/javascript" src="comm/js/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="../comm/js/easyui/locale/easyui-lang-zh_CN.js"></script>
+		<script type="text/javascript">
+			/**
+			 * 修改当前页码，调用后台重新查询
+			 */
+			function changeCurrentPage(currentPage) {
+				$("#currentPage").val(currentPage);
+				$("#domainForm").submit();
+			}
+			
+			function openDialog(){
+				$("#domain_dialog").dialog({
+					top: 50,
+					draggable: false,
+					resizable: false,
+					modal:true
+				}).show();
+			}
+			
+			function changeDomain(sn_code,domain_name){
+				$("#sn_string").val(sn_code);
+				$("#new_domain").val(domain_name);
+				$("#change_domain_dialog").dialog({
+					top: 50,
+					draggable: false,
+					resizable: false,
+					modal:true
+				}).show();
+			}
+			
+			$(function(){
+				//绑定一个注销的点击事件
+				$("table.tab2  a[name='del_domain']").click(function(){
+					
+					var id = $.trim($(this).attr("title"));
+					if(window.confirm("请再次确认是否需要删除此域名?")){
+						window.location = "domain!remove?id="+id;
+					}
+				});
+			});
+		</script>
+
+  </head>
+  
+  <body style="background: #e1e9eb;">
+  	<form action="domain!list" id="domainForm" method="post">
+			<input type="hidden" name="currentPage" id="currentPage" value="${page.currentPage}"/>
+			<div class="right">
+				<div class="rightCont">
+					<p class="g_title fix">域名SN码列表 <a class="btn03" href="javascript:openDialog()" onclick="openDialog();">新增域名</a></p>
+					<table class="tab1">
+						<tbody>
+							<tr>
+								<td width="90" align="right">域名：</td>
+								<td>
+									<input name="domain_name" type="text" class="allInput" value="${domain_name!}"/>
+								</td>
+								<td width="90" align="right">SN码：</td>
+								<td>
+									<input name="sn_code" type="text" class="allInput" value="${sn_code!}"/>
+								</td>
+	                            <td width="85" align="right"><input type="submit" class="tabSub" value="查 询"/></td>
+	       					</tr>
+						</tbody>
+					</table>
+					<div class="zixun fix">
+						<table class="tab2" width="100%">
+							<tbody>
+								<tr>
+								    <th>域名</th>
+								    <th>SN码</th>
+								    <th>操作</th>
+								</tr>
+								<#if domains?? && domains?size &gt; 0>
+								 <#list domains as domain>
+									<tr>
+										<td>${domain.domain_name!}</td>
+										<td>${domain.sn_code!}</td>
+							    		<td>
+							    			<a class="btn03" href="javascript:void(0)" onclick="changeDomain('${domain.sn_code!}','${domain.domain_name!}');" name="change_domain">修改</a>
+							    		 	<a class="btn03" href="javascript:void(0)" name="del_domain" title="${domain.id}">刪除</a>
+							    		</td>
+									</tr>
+								 </#list>
+	    						</#if>
+							</tbody>
+						</table>
+						<div class='page fix'>
+							共 <b>${page.totalNumber!}</b> 条
+								<a href="javascript:changeCurrentPage('1')" class='first'>首页</a>
+								<a href="javascript:changeCurrentPage('${page.currentPage-1}')" class='pre'>上一页</a>
+							当前第<span>${page.currentPage!}/${page.totalPage!}</span>页
+								<a href="javascript:changeCurrentPage('${page.currentPage+1}')" class='next'>下一页</a>
+								<a href="javascript:changeCurrentPage('${page.totalPage}')" class='last'>末页</a>
+						</div>
+					</div>
+				</div>
+			</div>
+	    </form>
+		<div id="domain_dialog" class="dialog" title="新增域名" style="width:450px;height:260px;">
+			<form action="domain!add" method="post" class="smart-green">
+				<label>
+				<span>域名：</span>
+				<input id="domain_name" type="text" name="domain_name" class="easyui-validatebox" required="true"/>
+				</label>
+				<label>
+				<span>SN码：</span>
+				<input id="sn_code" type="text" name="sn_code" class="easyui-validatebox" required="true" />
+				</label>
+				<label>
+				<span>&nbsp;</span>
+				<input type="submit" class="button" value="提交" />
+				<input type="reset" class="button" value="重置"/>
+				</label>
+			</form>
+		</div>
+		<div id="change_domain_dialog" class="dialog" title="修改域名" style="width:450px;height:260px;">
+			<form action="domain!changeDomain" method="post" class="smart-green">
+				<label>
+				<span>SN码：</span>
+				<input id="sn_string" type="text" name="sn_code" readonly="readonly" />
+				</label>
+				<label>
+				<span>新的域名：</span>
+				<input id="new_domain" type="text" name="new_domain" class="easyui-validatebox" required="true"/>
+				</label>
+				<label>
+				<span>&nbsp;</span>
+				<input type="submit" class="button" value="提交" />
+				</label>
+			</form>
+		</div>
+  </body>
+</html>

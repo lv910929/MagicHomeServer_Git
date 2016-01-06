@@ -1,0 +1,22 @@
+* {margin: 0px;padding: 0px;font-size: 12px;}
+a{text-decoration: none;}
+.dialog {display: none;}
+.clear {clear: both;}
+li {list-style: none;}
+
+.menu_container {background-color: #eefaff;}
+.menus {width: 100%;}
+.menus li {border-bottom: 1px solid #bbe1f1;height: 30px;line-height: 30px;text-align: center;}
+.menus li a {width: 100%;display: block;color: #3c3c3c;}
+.menus li a:hover {background-color: #bbe1f1;color: #cc3333;}
+
+.table_data {table-layout: fixed;empty-cells: show;border-collapse: collapse;width: 100%;}
+.table_data tr th,.table_data tr td {vertical-align: middle;font-size: 12px;height: 15px;text-align: center;border: 1px solid #cad9ea;padding: 3px 0;text-align: center;}
+.table_data tr th {background-color: #e0ecff;padding: 8px;}
+
+.mask {position:absolute;left:0px;top:0px;bottom:0px;right:0px;z-index:10;background-color:#333;display:none;text-align:center;}
+.mask .info {border:2px solid #9bdf70;background-color:#fff;position:absolute;top:300px;left:50%;margin-left:-60px;width:120px;height:30px;font-size:16px;font-weight:bolder;z-index:20;text-align:center;line-height:30px;}
+
+.tr_focus{
+	background-color:#efefef;
+}

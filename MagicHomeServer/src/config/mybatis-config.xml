@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+	<typeAliases>
+		<typeAlias alias="account" type="com.lencity.magichome.model.Account" />
+		<typeAlias alias="software" type="com.lencity.magichome.model.Software" />
+		<typeAlias alias="feedback" type="com.lencity.magichome.model.Feedback" />
+		<typeAlias alias="repair" type="com.lencity.magichome.model.Repair" />
+		<typeAlias alias="device" type="com.lencity.magichome.model.Device" />
+		<typeAlias alias="adminUser" type="com.lencity.magichome.model.AdminUser" />
+		<typeAlias alias="hardware" type="com.lencity.magichome.model.Hardware" />
+		<typeAlias alias="domain" type="com.lencity.magichome.model.Domain" />
+		<typeAlias alias="repairProgress" type="com.lencity.magichome.model.RepairProgress" />
+		<typeAlias alias="alertInfo" type="com.lencity.magichome.model.AlertInfo"/>
+		<typeAlias alias="log" type="com.lencity.magichome.model.Log"/>
+		<typeAlias alias="document" type="com.lencity.magichome.model.Document"/>
+		<typeAlias alias="clientInfo" type="com.lencity.magichome.model.ClientInfo"/>
+		<typeAlias alias="deviceNum" type="com.lencity.magichome.model.DeviceNum"/>
+	</typeAliases>
+
+	<plugins>
+		<plugin interceptor="com.lencity.magichome.intercepter.PageInterceptor">
+			<property name="dialect" value="mysql"/>
+			<!-- 此处可以根据实际情况配置 此配置表明只要是查询带有Page结尾的语句才真正地进行分页处理，但是实际是所有连接都先进入拦截器，然后再判断是否带有Page结尾 -->
+			<property name="pageSqlId" value=".*Page$" />
+		</plugin>
+	</plugins>
+
+</configuration>  

@@ -1,0 +1,25 @@
+@charset "utf-8";
+/*校验提示*/
+.validate_error{position:absolute;right:3px;top:3px;}
+/*表格字段布局*/
+.component_field {margin-bottom:12px;text-align:left;width:720px;}
+.component_field .label{color:#3c3c3c;float:left;height:20px;line-height:20px;text-align:right;width:80px;}
+.component_field .component{float:left;position:relative;}
+.component_field .info{float:left;height:20px;line-height:20px;color:#6B9BB9;text-align:left;padding-left:20px;}
+/*注册页面文本框*/
+.regist_text_input {width: 314px; height: 16px; color: #414141; padding-top: 4px; background: #fff; border: solid 1px #a7cde6;}
+/*下拉筐*/
+.codesky_select_input { border: #a6a6a6 1px solid; text-align:left; padding:0 0 0 5px; background:#fff url(../images/select_arrow.gif) no-repeat right 0px; font-size:14px; *margin: 1px 0 0 0 !important; margin:0; cursor:pointer; height:30px; line-height:30px; font-family: "宋体", arial; POSITION: relative; TOP: 0px; LEFT:0px; color:#666666; }
+.codesky_select_options { border: #a6a6a6 1px solid; text-align:left; border-top:0;  *padding:0 3px 0 2px;
+overflow-y: auto; overflow-x: hidden; background: #fff; font-family: "宋体", arial;position: absolute }
+.codesky_select_options DIV { PADDING-LEFT: 2px; WIDTH: 98px; CURSOR: default; font-size:14px;  LINE-HEIGHT: 30px; HEIGHT: 30px }
+.codesky_select_options .selecton { BACKGROUND: #eee; }
+.codesky_checkbox_out { CLEAR: both; CURSOR: default; LINE-HEIGHT: 15px; HEIGHT: 15px }
+.codesky_checkbox_on { FLOAT: left; MARGIN: 2px 1px 2px 0px; WIDTH: 11px; CURSOR: default; LINE-HEIGHT: 11px; HEIGHT: 11px }
+.codesky_checkbox_off { FLOAT: left; MARGIN: 2px 1px 2px 0px; WIDTH: 11px; CURSOR: default; LINE-HEIGHT: 11px; HEIGHT: 11px }
+.codesky_checkbox_dis { FLOAT: left; MARGIN: 2px 1px 2px 0px; WIDTH: 11px; CURSOR: default; LINE-HEIGHT: 11px; HEIGHT: 11px }
+.codesky_checkbox_off { BACKGROUND: url(../images/codesky_select.gif) }
+.codesky_checkbox_on { BACKGROUND: url(../images/codesky_select.gif) -11px 0px }
+.codesky_checkbox_dis { BACKGROUND: url(../images/codesky_select.gif) -22px 0px; CURSOR: default }
+.codesky_checkbox_out SPAN { LINE-HEIGHT: 15px; HEIGHT: 15px; color:#666; }
+/*下拉筐 END*/

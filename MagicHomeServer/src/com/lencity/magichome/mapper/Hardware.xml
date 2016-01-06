@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.HardwareDao">
+
+	<resultMap type="com.lencity.magichome.model.Hardware" id="hardwareResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="hardware_type" jdbcType="INTEGER" column="hardware_type" />
+		<result property="hardware_version" jdbcType="INTEGER" column="hardware_version" />
+		<result property="hardware_size" jdbcType="VARCHAR" column="hardware_size" />
+		<result property="upload_time" jdbcType="TIMESTAMP" column="upload_time" />
+		<result property="update_url" jdbcType="VARCHAR" column="update_url" />
+		<result property="hardware_info" jdbcType="VARCHAR" column="info" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,hardware_type,hardware_version,hardware_size,upload_time,update_url,hardware_info</sql>
+
+	<select id="getHardwareByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Hardware"
+		resultMap="hardwareResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_hardware where id=#{id}
+	</select>
+
+	<select id="getAllHardwares" resultType="list" resultMap="hardwareResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_hardware
+	</select>
+	
+	<select id="getHardwaresByType" parameterType="INTEGER" resultType="list" resultMap="hardwareResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_hardware where hardware_type=#{hardware_type} order by id desc
+	</select>
+	
+	<select id="getHardwaresByPage" parameterType="java.util.Map" resultMap="hardwareResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_hardware
+		 <where>
+	    	<if test="hardware.hardware_version != 0">
+		    	and hardware_version = #{hardware.hardware_version}
+		    </if>
+		    <if test="hardware.hardware_type != 0">
+		    	and hardware_type = #{hardware.hardware_type} 
+		    </if>
+		   </where>
+   		 order by id
+	</select>
+
+	<insert id="insertHardware" parameterType="com.lencity.magichome.model.Hardware">
+		insert into device_hardware(hardware_type,hardware_version,hardware_size,upload_time,update_url,hardware_info) 
+		values(#{hardware_type},#{hardware_version},#{hardware_size},#{upload_time},#{update_url},#{hardware_info})
+	</insert>
+	
+	<delete id="removeHardware" parameterType="INTEGER">
+		delete from device_hardware where id=#{id}
+	</delete>
+
+</mapper>
