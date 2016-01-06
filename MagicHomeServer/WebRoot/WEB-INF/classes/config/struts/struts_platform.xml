@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="admin-default" namespace="/" extends="default">
+		<interceptors>
+			<interceptor name="Encoding"
+				class="com.lencity.magichome.intercepter.EncodingInterceptor"></interceptor>
+			<interceptor-stack name="Encode">
+				<interceptor-ref name="Encoding"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref><!-- 必须引入这个，否则request不会再往下传 -->
+			</interceptor-stack>
+			<interceptor name="platformAuthorize"
+				class="com.lencity.magichome.intercepter.PlatformAuthorize">
+			</interceptor>
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="platformAuthorize"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultStack"></default-interceptor-ref>
+	</package>
+
+	<package name="public" namespace="/" extends="struts-default">
+
+		<result-types>
+			<result-type name="streamx"
+				class="com.sunspoter.lib.web.struts2.dispatcher.StreamResultX" />
+		</result-types> 
+		
+		<action name="download"
+			class="com.lencity.magichome.action.SoftwareManagerAction" method="download">
+			<result type="streamx">
+				<param name="contentType">text/octet-stream</param>
+				<param name="inputName">downloadFile</param>
+				<param name="contentDisposition">
+					attachment;filename="magichome.apk"
+				</param>
+				<param name="bufferSize">2048</param>
+			</result>
+		</action>
+
+		<action name="downloadDocument"
+			class="com.lencity.magichome.action.DocumentManagerAction" method="downloadDocument">
+			<result name="downloadDocument" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="inputName">downloadFile</param>
+				<param name="contentDisposition">
+					attachment;filename="MagicHomeDemoVideo.mp4"
+				</param>
+				<param name="bufferSize">2048</param>
+			</result>
+		</action>
+
+		<action name="downloadData"
+			class="com.lencity.magichome.action.HardwareManagerAction" method="downloadData">
+			<result name="downloadData" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="inputName">downloadFile</param>
+				<param name="contentDisposition">
+					attachment;filename="${dataFileName}"
+				</param>
+				<param name="bufferSize">2048</param>
+			</result>
+		</action>
+
+		<action name="login" class="com.lencity.magichome.action.PlatformAction"
+			method="login">
+			<result name="indexAction" type="redirect">
+				index
+			</result>
+			<result name="adminLogin">
+				index.html
+			</result>
+		</action>
+
+		<action name="index" class="com.lencity.magichome.action.PlatformAction"
+			method="index">
+			<result name="index" type="freemarker">
+				home.html
+			</result>
+		</action>
+
+		<action name="registAdmin" class="com.lencity.magichome.action.PlatformAction"
+			method="regist">
+			<result name="adminLogin">index.html</result>
+			<result name="error">register.html</result>
+		</action>
+
+		<action name="logout" class="com.lencity.magichome.action.PlatformAction"
+			method="logout">
+			<result name="adminLogin">index.html</result>
+		</action>
+
+		<action name="app" class="com.lencity.magichome.action.PlatformAction"
+			method="app">
+			<result name="download">http://121.41.103.55:8080/MagicHomeServer/download?software_type=2
+			</result>
+		</action>
+
+	</package>
+
+	<!-- account -->
+	<package name="accounts" namespace="/" extends="admin-default">
+
+		<action name="account"
+			class="com.lencity.magichome.action.AccountManagerAction">
+			<result name="list" type="freemarker">view/Account.html</result>
+		</action>
+
+	</package>
+
+	<!-- device -->
+	<package name="devices" namespace="/" extends="admin-default">
+
+		<action name="device" class="com.lencity.magichome.action.DeviceManagerAction">
+			<result name="list" type="freemarker">view/Device.html</result>
+		</action>
+
+	</package>
+
+	<!-- feedback -->
+	<package name="feedbacks" namespace="/" extends="admin-default">
+
+		<action name="feedback"
+			class="com.lencity.magichome.action.FeedbackManagerAction">
+			<result name="list" type="freemarker">view/Feedback.html</result>
+		</action>
+
+	</package>
+
+	<!-- software -->
+	<package name="softwares" namespace="/" extends="admin-default">
+
+		<action name="software"
+			class="com.lencity.magichome.action.SoftwareManagerAction">
+			<result name="listAction" type="redirect">software!list</result>
+			<result name="list" type="freemarker">view/Software.html</result>
+		</action>
+
+	</package>
+
+	<!-- hardware -->
+	<package name="hardwares" namespace="/" extends="admin-default">
+
+		<action name="hardware"
+			class="com.lencity.magichome.action.HardwareManagerAction">
+			<result name="success" type="redirect">hardware!list</result>
+			<result name="list" type="freemarker">view/Hardware.html</result>
+		</action>
+
+	</package>
+
+	<!-- domain -->
+	<package name="domains" namespace="/" extends="admin-default">
+
+		<action name="domain" class="com.lencity.magichome.action.DomainManagerAction">
+			<result name="listAction" type="redirect">domain!list</result>
+			<result name="list" type="freemarker">view/Domain.html</result>
+		</action>
+
+	</package>
+
+	<!-- repair -->
+	<package name="repairs" namespace="/" extends="admin-default">
+
+		<action name="repair" class="com.lencity.magichome.action.RepairManagerAction">
+			<result name="listAction" type="redirect">repair!list</result>
+			<result name="list" type="freemarker">view/Repair.html</result>
+			<result name="detail" type="freemarker">view/RepairDetail.html</result>
+		</action>
+
+	</package>
+
+	<!-- repair_progress -->
+	<package name="repairProgresses" namespace="/" extends="admin-default">
+
+		<action name="repairProgress"
+			class="com.lencity.magichome.action.RepairProgressAction">
+			<result name="list" type="freemarker">view/RepairProgress.html</result>
+		</action>
+
+	</package>
+
+	<!-- adminUser -->
+	<package name="adminUsers" namespace="/" extends="admin-default">
+
+		<action name="adminUser"
+			class="com.lencity.magichome.action.AdminUserManagerAction">
+			<result name="list" type="freemarker">view/AdminUser.html</result>
+		</action>
+
+	</package>
+
+	<package name="documents" namespace="/" extends="admin-default">
+
+		<action name="document"
+			class="com.lencity.magichome.action.DocumentManagerAction">
+			<result name="success" type="redirect">document!list</result>
+			<result name="list" type="freemarker">view/Document.html</result>
+		</action>
+
+	</package>
+
+	<!-- log -->
+	<package name="logs" namespace="/" extends="admin-default">
+
+		<action name="log" class="com.lencity.magichome.action.DBLogManagerAction">
+			<result name="list" type="freemarker">view/DBLog.html</result>
+		</action>
+	</package>
+
+	<!-- clientInfo -->
+	<package name="clientInfos" namespace="/" extends="admin-default">
+		<action name="clientInfo"
+			class="com.lencity.magichome.action.ClientInfoManagerAction">
+			<result name="list" type="freemarker">view/ClientView.html</result>
+		</action>
+	</package>
+
+	<include file="config/struts/struts_android.xml" />
+
+	<include file="config/struts/struts_data.xml" />
+
+</struts>

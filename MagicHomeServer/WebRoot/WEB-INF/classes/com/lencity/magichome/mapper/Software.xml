@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.SoftwareDao">
+
+	<resultMap type="com.lencity.magichome.model.Software" id="softResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="software_type" jdbcType="INTEGER" column="software_type" />
+		<result property="software_version" jdbcType="INTEGER" column="software_version" />
+		<result property="software_size" jdbcType="VARCHAR" column="software_size" />
+		<result property="release_time" jdbcType="TIMESTAMP" column="release_time" />
+		<result property="download_url" jdbcType="VARCHAR" column="download_url" />
+		<result property="software_info" jdbcType="VARCHAR" column="software_info" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,software_type,software_version,software_size,release_time,download_url,software_info</sql>
+
+	<select id="getSoftwareByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Software"
+		resultMap="softResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_software where id=#{id}
+	</select>
+	
+	<select id="getSoftwaresBytype" parameterType="INTEGER" resultType="list" resultMap="softResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_software where software_type=#{software_type} order by id desc
+	</select>
+
+	<select id="getAllSoftwares" resultType="list" resultMap="softResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_software
+	</select>
+	
+	<select id="getSoftwaresByPage" parameterType="java.util.Map" resultMap="softResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from device_software
+		 <where>
+		    <if test="software.software_type != 0">
+		    	and software_type = #{software.software_type} 
+		    </if>
+		   </where>
+   		 order by id
+	</select>
+
+	<insert id="insertSoftware" parameterType="com.lencity.magichome.model.Software">
+		insert into device_software(software_type,software_version,software_size,release_time,download_url,software_info) 
+		values(#{software_type},#{software_version},#{software_size},#{release_time},#{download_url},#{software_info})
+	</insert>
+	
+	<delete id="removeSoftware" parameterType="INTEGER">
+		delete from device_software where id=#{id}
+	</delete>
+
+</mapper>

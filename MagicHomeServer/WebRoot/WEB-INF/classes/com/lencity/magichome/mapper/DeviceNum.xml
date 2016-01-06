@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.DeviceNumDao">
+
+	<resultMap type="com.lencity.magichome.model.DeviceNum" id="deviceNumResultMap">
+		<id property="weekdayId" jdbcType="INTEGER" column="weekday_id" />
+		<result property="onlineNum" jdbcType="VARCHAR" column="online_num" />
+		<result property="offlineNum" jdbcType="VARCHAR" column="offline_num" />
+	</resultMap>
+	
+	<sql id="commonColumns">weekday_id,online_num,offline_num</sql>
+
+	<select id="getDeviceNums" resultType="list" resultMap="deviceNumResultMap">
+		select
+		<include refid="commonColumns"/>
+		from device_data
+		order by weekday_id
+	</select>
+	
+	<update id="updateDeviceNum" parameterType="com.lencity.magichome.model.Domain">
+		update device_data set  
+        	online_num = #{onlineNum},
+        	offline_num = #{offlineNum}  
+        where weekday_id = #{weekdayId}
+	</update>
+
+</mapper>

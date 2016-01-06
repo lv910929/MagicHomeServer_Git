@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.ClientInfoDao">
+
+	<resultMap type="com.lencity.magichome.model.ClientInfo" id="clientInfoResultMap">
+		<id property="macAddress" jdbcType="VARCHAR" column="mac_address" />
+		<result property="ipAddress" jdbcType="VARCHAR" column="ip_address" />
+		<result property="cityName" jdbcType="VARCHAR" column="city_name" />
+	</resultMap>
+	
+	<resultMap type="Map" id="baseResultMap">
+		<id property="macAddress" jdbcType="VARCHAR" column="mac_address" />
+		<result property="num" jdbcType="INTEGER" column="num" />
+	</resultMap>
+	
+	<sql id="commonColumns">mac_address,ip_address,city_name</sql>
+	
+	<select id="getClientInfoByMac" parameterType="string" resultType="com.lencity.magichome.model.ClientInfo"
+		resultMap="clientInfoResultMap">
+		select
+		<include refid="commonColumns"/>
+		from client_info where mac_address=#{macAddress}
+	</select>
+	
+	<select id="getClientInfosByPage" parameterType="java.util.Map" resultMap="clientInfoResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from client_info 
+		<where>
+		    <if test="cityName != null and !&quot;&quot;.equals(cityName.trim())">
+		    	and city_name like '%' #{cityName} '%'
+		    </if>
+    	</where>
+   		order by mac_address
+	</select>
+
+	<select id="getAllClientInfos" resultType="list" resultMap="clientInfoResultMap">
+		select
+		<include refid="commonColumns"/>
+		from client_info
+	</select>
+	
+	<select id="getCountByCity" resultType="list" resultMap="baseResultMap">
+		select
+		city_name as "cityName",
+		count(mac_address) as "num"
+		from client_info
+		group by city_name
+	</select>
+
+	<insert id="insertClientInfo" parameterType="com.lencity.magichome.model.ClientInfo">
+		insert into client_info(mac_address,ip_address,city_name) values(#{macAddress},#{ipAddress},#{cityName})
+	</insert>
+	
+	<update id="updateClientInfo" parameterType="com.lencity.magichome.model.ClientInfo">
+		update client_info set  
+        	ip_address = #{ipAddress},
+        	city_name = #{cityName}  
+        where mac_address = #{macAddress}  
+	</update>
+	
+	<delete id="deleteByMac" parameterType="string">
+		delete from client_info where mac_address=#{macAddress}
+	</delete>
+
+</mapper>

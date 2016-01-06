@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.AdminUserDao">
+
+	<resultMap type="com.lencity.magichome.model.AdminUser" id="adminUserResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="name" jdbcType="VARCHAR" column="name" />
+		<result property="password" jdbcType="VARCHAR" column="password" />
+		<result property="user_role" jdbcType="INTEGER" column="user_role" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,name,password,user_role</sql>
+
+	<select id="getAdminUserByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.AdminUser"
+		resultMap="adminUserResultMap">
+		select
+		<include refid="commonColumns"/> 
+	    from admin_user where id=#{id}
+	</select>
+	
+	<select id="getAdminUserByName" parameterType="string" resultType="com.lencity.magichome.model.AdminUser"
+		resultMap="adminUserResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from admin_user where name=#{name}
+	</select>
+	
+	<select id="getAdminUsersByPage" parameterType="java.util.Map" resultMap="adminUserResultMap">
+		select  
+        <include refid="commonColumns"/>  
+        from admin_user  
+       	where 1=1
+   		order by id
+	</select>
+
+	<insert id="insertAdminUser" parameterType="com.lencity.magichome.model.AdminUser">
+		insert into admin_user(name,password,user_role) values(#{name},#{password},0)
+	</insert>
+	
+	<update id="updateAdminUser" parameterType="com.lencity.magichome.model.AdminUser">
+		update admin_user set   
+        password = #{password} 
+        where id = #{id}  
+	</update>
+	
+	<update id="updateUserRole" parameterType="com.lencity.magichome.model.AdminUser">
+		update admin_user set   
+        user_role = #{user_role} 
+        where id = #{id}
+	</update>
+	
+	<delete id="removeAdminUser" parameterType="INTEGER">
+		delete from admin_user where id=#{id}
+	</delete>
+
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.DeviceDao">
+
+	<resultMap type="com.lencity.magichome.model.Device" id="deviceResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="account_name" jdbcType="VARCHAR" column="account_name" />
+		<result property="mac_address" jdbcType="VARCHAR" column="mac_address" />
+		<result property="domain_name" jdbcType="VARCHAR" column="domain_name" />
+		<result property="sn_code" jdbcType="VARCHAR" column="sn_code" />
+		<result property="software_version" jdbcType="INTEGER" column="software_version" />
+		<result property="hardware_version" jdbcType="INTEGER" column="hardware_version" />
+		<result property="register_time" jdbcType="TIMESTAMP" column="register_time" />
+		<result property="update_time" jdbcType="TIMESTAMP" column="update_time" />
+		<result property="device_status" jdbcType="INTEGER" column="device_status" />
+	</resultMap>
+	
+	<resultMap type="com.lencity.magichome.model.StateNum" id="numResultMap">
+		<id property="deviceStatus" jdbcType="INTEGER" column="deviceStatus" />
+		<result property="deviceNum" jdbcType="INTEGER" column="deviceNum" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,account_name,mac_address,domain_name,sn_code,software_version,hardware_version,register_time,update_time,device_status</sql>
+
+	<select id="getDeviceByDomain" parameterType="string" resultType="com.lencity.magichome.model.Device"
+		resultMap="deviceResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+         from device where domain_name=#{domain_name}
+	</select>
+	
+	<select id="getDevicesByPage" parameterType="java.util.Map" resultMap="deviceResultMap">
+		select
+		<include refid="commonColumns"/>  
+		from device
+		 <where>
+	    	<if test="device.account_name != null and !&quot;&quot;.equals(device.account_name.trim())">
+		    	and account_name like '%' #{device.account_name} '%'
+		    </if>
+		    <if test="device.device_status != 0 ">
+		    	and device_status = #{device.device_status}
+		    </if>
+    	</where>
+   		 order by id
+	</select>
+
+	<select id="getDeviceByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Device" resultMap="deviceResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+         from device
+         where id=#{id}
+	</select>
+	
+	<select id="getDeviceByAccount" parameterType="string" resultType="com.lencity.magichome.model.Device"
+		resultMap="deviceResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+         from device where account_name=#{account_name}
+	</select>
+	
+	<select id="getDeviceByMacAddress" parameterType="string" resultType="com.lencity.magichome.model.Device"
+		resultMap="deviceResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+         from device where mac_address=#{mac_address}
+	</select>
+	
+	<select id="getAllDevices" resultType="list" resultMap="deviceResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+         from device
+	</select>
+
+	<insert id="insertDevice" parameterType="com.lencity.magichome.model.Device">
+		insert into device(account_name,mac_address,domain_name,sn_code,software_version,hardware_version,register_time,device_status) 
+		values(#{account_name},#{mac_address},#{domain_name},#{sn_code},#{software_version},#{hardware_version},#{register_time},#{device_status})
+	</insert>
+	
+	<update id="updateDevice" parameterType="com.lencity.magichome.model.Device">
+		update device set
+				mac_address=#{mac_address}, 
+				software_version=#{software_version},
+				update_time = #{update_time},
+				device_status = #{device_status}
+        where id = #{id}  
+	</update>
+	
+	<delete id="removeDevice" parameterType="INTEGER">
+		delete from device where id=#{id}
+	</delete>
+	
+	<select id="getNumByOnline" resultType="list" resultMap="numResultMap">
+		select
+			device_status as "deviceStatus",
+			count(device_status) as "deviceNum"
+		from device
+		group by device_status
+		order by device_status
+	</select>
+
+</mapper>

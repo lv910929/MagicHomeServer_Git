@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.LogDao">
+
+	<resultMap type="com.lencity.magichome.model.Log" id="logResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="user_name" jdbcType="VARCHAR" column="user_name" />
+		<result property="log_content" jdbcType="VARCHAR" column="log_content" />
+		<result property="log_time" jdbcType="VARCHAR" column="log_time" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,user_name,log_content,log_time</sql>
+
+	<select id="getAllAccounts" resultType="list" resultMap="logResultMap">
+		select 
+		<include refid="commonColumns"/>
+		from db_log
+		order by id desc
+	</select>
+	
+	<select id="getLogsByPage" parameterType="java.util.Map" resultMap="logResultMap">
+		 select  
+        <include refid="commonColumns"/>  
+        from db_log  
+       <where>
+	    	<if test="log.user_name != null and !&quot;&quot;.equals(log.user_name.trim())">
+		    	and user_name like '%' #{log.user_name} '%'
+		    </if>
+    	</where>
+   		order by id desc 
+	</select>
+
+	<insert id="insertLog" parameterType="com.lencity.magichome.model.Log">
+		insert into db_log(user_name,log_content,log_time) values(#{user_name},#{log_content},#{log_time})
+	</insert>
+
+</mapper>

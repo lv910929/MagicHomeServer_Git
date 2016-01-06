@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+	
+	<package name="accounts_android" namespace="/" extends="json-default">
+
+		<action name="repairs_check" class="com.lencity.magichome.action.AndroidAction" method="checkRepairs">
+			<result type="json"/>
+		</action>
+		
+		<action name="repairProgress_check" class="com.lencity.magichome.action.AndroidAction" method="checkRepairProgress">
+			<result type="json"/>
+		</action>
+	</package>
+
+</struts>

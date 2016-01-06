@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"  
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.custom.i18n.resources" value="message"></constant>
+	
+	<package name="home_data" namespace="/" extends="json-default">
+
+		<action name="count_city" class="com.lencity.magichome.action.HomeDataAction" method="countCity">
+			<result type="json"/>
+		</action>
+		
+		<action name="count_device" class="com.lencity.magichome.action.HomeDataAction" method="countDevice">
+			<result type="json"/>
+		</action>
+		
+	</package>
+
+</struts>

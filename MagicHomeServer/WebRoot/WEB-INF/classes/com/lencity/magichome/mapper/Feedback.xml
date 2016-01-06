@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2009-2012 the original author or authors. Licensed under the 
+	Apache License, Version 2.0 (the "License"); you may not use this file except 
+	in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.lencity.magichome.dao.FeedbackDao">
+
+	<resultMap type="com.lencity.magichome.model.Feedback" id="feedbackResultMap">
+		<id property="id" jdbcType="INTEGER" column="id" />
+		<result property="account_name" jdbcType="VARCHAR" column="account_name" />
+		<result property="content" jdbcType="VARCHAR" column="content" />
+		<result property="create_time" jdbcType="TIMESTAMP" column="create_time" />
+		<result property="status" jdbcType="INTEGER" column="status" />
+	</resultMap>
+	
+	<sql id="commonColumns">id,account_name,content,create_time,status</sql>
+
+	<select id="getFeedbackByid" parameterType="INTEGER" resultType="com.lencity.magichome.model.Feedback"
+		resultMap="feedbackResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from user_feedback where id=#{id}
+	</select>
+
+	<select id="getAllFeedbacks" resultType="list" resultMap="feedbackResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from user_feedback
+	</select>
+	
+	<select id="getFeedbacksByPage" parameterType="java.util.Map" resultMap="feedbackResultMap">
+		select 
+		<include refid="commonColumns"/> 
+		 from user_feedback
+		 <where>
+	    	<if test="feedback.account_name != null and !&quot;&quot;.equals(feedback.account_name.trim())">
+		    	and account_name like '%' #{feedback.account_name} '%'
+		    </if>
+		    <if test="feedback.status != 0 ">
+		    	and status = #{feedback.status}
+		    </if>
+    	</where>
+   		 order by id 
+	</select>
+
+	<insert id="insertFeedback" parameterType="com.lencity.magichome.model.Feedback">
+		insert into user_feedback(account_name,content,create_time,status) 
+		values(#{account_name},#{content},#{create_time},#{status})
+	</insert>
+	
+	<update id="editFeedback" parameterType="com.lencity.magichome.model.Feedback">
+		update user_feedback set  
+        status = #{status}  
+        where id = #{id}  
+	</update>
+	
+	<delete id="removeFeedback" parameterType="INTEGER">
+		delete from user_feedback where id=#{id}
+	</delete>
+
+</mapper>

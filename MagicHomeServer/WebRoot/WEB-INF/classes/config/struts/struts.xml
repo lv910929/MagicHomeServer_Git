@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" 
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	
+	<!-- 设置文件上传的最大容量100M-->
+	<constant name="struts.multipart.maxSize" value="104857600"/>
+
+	<!-- 设置request/response编码 -->
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<constant name="struts.custom.i18n.resources" value="message" />
+	<!-- 设置上传文件临时目录  -->
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+	
+	<package name="default" namespace="/" extends="struts-default">
+		<global-results>
+			<result name="adminLogin" type="redirect">
+				/index.html
+			</result>
+		</global-results>
+	</package>
+	
+	<!-- 加载其他模块 -->
+   <include file="config/struts/struts_platform.xml" />
+	
+</struts> 
