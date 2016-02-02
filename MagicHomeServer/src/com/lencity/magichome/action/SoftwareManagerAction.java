@@ -1,21 +1,17 @@
 package com.lencity.magichome.action;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.lencity.magichome.model.Software;
 import com.lencity.magichome.service.SoftwareService;
-import com.lencity.magichome.socket.thread.udp.UDPBusinessService;
 
 @SuppressWarnings("serial")
 public class SoftwareManagerAction extends BaseAction {
@@ -217,6 +213,7 @@ public class SoftwareManagerAction extends BaseAction {
 		software = softwareService.getLastestSoftware(software_type);
 		downloadFile = ServletActionContext.getServletContext().getResourceAsStream(
 				software.getDownload_url());
+		
 		return SUCCESS;
 	}
 }

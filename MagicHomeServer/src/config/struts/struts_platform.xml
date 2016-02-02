@@ -5,8 +5,8 @@
 <struts>
 	<package name="admin-default" namespace="/" extends="default">
 		<interceptors>
-			<interceptor name="Encoding"
-				class="com.lencity.magichome.intercepter.EncodingInterceptor"></interceptor>
+			<interceptor name="Encoding" class="com.lencity.magichome.intercepter.EncodingInterceptor">
+			</interceptor>
 			<interceptor-stack name="Encode">
 				<interceptor-ref name="Encoding"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref><!-- 必须引入这个，否则request不会再往下传 -->
@@ -95,7 +95,8 @@
 
 		<action name="app" class="com.lencity.magichome.action.PlatformAction"
 			method="app">
-			<result name="download">http://121.41.103.55:8080/MagicHomeServer/download?software_type=2
+			<result name="download">
+				http://121.41.103.55:8080/MagicHomeServer/download?software_type=2
 			</result>
 		</action>
 

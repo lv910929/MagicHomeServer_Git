@@ -3,12 +3,15 @@ package com.lencity.magichome.action;
 import java.util.List;
 
 import com.lencity.magichome.model.Domain;
+import com.lencity.magichome.service.DeviceService;
 import com.lencity.magichome.service.DomainService;
 
 @SuppressWarnings("serial")
 public class DomainManagerAction extends BaseAction{
 	
 	private DomainService domainService;
+	
+	private DeviceService deviceService;
 	
 	private int id;
 	
@@ -26,6 +29,14 @@ public class DomainManagerAction extends BaseAction{
 
 	public void setDomainService(DomainService domainService) {
 		this.domainService = domainService;
+	}
+
+	public DeviceService getDeviceService() {
+		return deviceService;
+	}
+
+	public void setDeviceService(DeviceService deviceService) {
+		this.deviceService = deviceService;
 	}
 
 	public int getId() {
@@ -93,6 +104,8 @@ public class DomainManagerAction extends BaseAction{
 	public String changeDomain(){
 		
 		addLog("修改了SN码"+sn_code+"的域名");
+		String old_domain=domainService.getDomainBySN(sn_code).getDomain_name();
+		deviceService.changeDomain(old_domain, new_domain);
 		domainService.changeDomain(sn_code, new_domain);
 		init();
 		domains=domainService.getDomainsByPage(domain_name,sn_code,page);

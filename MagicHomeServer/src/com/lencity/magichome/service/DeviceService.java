@@ -84,6 +84,15 @@ public class DeviceService {
 		device.setMac_address(new_macAddress);
 		deviceDao.updateDevice(device);
 	}
+	/**
+	 * 更改域名
+	 */
+	public void changeDomain(String old_domain, String new_domain){
+		
+		Device device=deviceDao.getDeviceByDomain(old_domain);
+		device.setDomain_name(new_domain);
+		deviceDao.updateDevice(device);
+	}
 	
 	public List<StateNum> getNumByOnline(){
 		

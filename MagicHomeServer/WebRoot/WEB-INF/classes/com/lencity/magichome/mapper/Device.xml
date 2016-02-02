@@ -89,7 +89,8 @@
 	
 	<update id="updateDevice" parameterType="com.lencity.magichome.model.Device">
 		update device set
-				mac_address=#{mac_address}, 
+				mac_address=#{mac_address},
+				domain_name=#{domain_name}, 
 				software_version=#{software_version},
 				update_time = #{update_time},
 				device_status = #{device_status}

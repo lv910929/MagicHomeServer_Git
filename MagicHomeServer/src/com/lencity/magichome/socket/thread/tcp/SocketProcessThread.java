@@ -342,26 +342,31 @@ public class SocketProcessThread extends Thread {
 		try {
 			String accountName = parameters[0];
 			String password = parameters[1];
-			String domainString = parameters[2];
-			String oldPort = parameters[3];
-			String newPort = parameters[4];
+			String newDomain = parameters[2];
+			String newPort = parameters[3];
+			String newDomainName = "";
 			AccountService accountService = (AccountService) beanFactory.getBean("accountService");
 			Account account = accountService.login(accountName, password);
 			if (account != null) {
-				DomainService domainService = (DomainService) beanFactory.getBean("domainService");
-				Domain domain = domainService.getDomainByDomain(domainString+"&"+oldPort+"&1500");
-				if (domain != null) {
-					domain.setDomain_name(domainString+"&"+newPort+"&1500");
-					domainService.editDomain(domain);
-					DeviceService deviceService = (DeviceService) beanFactory.getBean("deviceService");
-					Device device = deviceService.getDeviceByAccount(accountName);
-					device.setDomain_name(domainString+"&"+newPort+"&1500");
-					deviceService.updateDevice(device);
+				DeviceService deviceService = (DeviceService) beanFactory.getBean("deviceService");
+				Device device = deviceService.getDeviceByAccount(accountName);
+				if (device != null) {
+					newDomainName = newDomain+"&"+newPort+"&1500";
+					DomainService domainService = (DomainService) beanFactory.getBean("domainService");
+					Domain domain = domainService.getDomainByDomain(device.getDomain_name());
+					domain.setDomain_name(newDomainName);
+					synchronized (keyObject) {
+						domainService.editDomain(domain);
+					}
+					device.setDomain_name(newDomainName);
+					synchronized (keyObject) {
+						deviceService.updateDevice(device);
+					}
 				}else {
-					result = -2;// 域名有误
+					result = 2;// 中控设备不存在
 				}
 			}else {
-				result = -1;// 账号密码错误
+				result = 1;// 账号或密码错误
 			}
 			
 		}catch (Exception e) {
@@ -376,20 +381,25 @@ public class SocketProcessThread extends Thread {
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
 		DataOutputStream dos = new DataOutputStream(bos);
 		byte result = 0;
+		Software software;
 		int lastVersion = 0;
+		String softwareInfo = "";
 		String appType = parameters[0];
 		SoftwareService softwareService = (SoftwareService) beanFactory
 				.getBean("softwareService");
-		lastVersion = softwareService.getLastestSoftwareVersion(Integer
-				.parseInt(appType));
-		if (lastVersion > 0) {
+		software = softwareService.getLastestSoftware(Integer.parseInt(appType));
+		if (software != null) {
 			result = 0;
+			lastVersion = software.getSoftware_version();
+			softwareInfo = software.getSoftware_info();
 		} else {
 			result = 1;
 		}
-		dos.writeInt(5);
+		dos.writeInt(9+softwareInfo.getBytes(charset).length);
 		dos.writeByte(result);
 		dos.writeInt(lastVersion);
+		dos.writeInt(softwareInfo.getBytes(charset).length);
+		dos.write(softwareInfo.getBytes(charset));
 		return bos.toByteArray();
 	}
 	
