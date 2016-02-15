@@ -14,8 +14,11 @@
 
 		<div class="dl-title"><span class="">MagicHome</span></div>
 		<div class="dl-log">
-			欢迎您，<span class="dl-log-user">${Session ["session_admin_user"].name!} </span><a
+			欢迎您，<span class="dl-log-user">
+			<#if Session ["session_admin_user"].name??>
+				${Session ["session_admin_user"].name!} </span><a
 				href="logout" title="退出系统" class="dl-log-quit">[退出]</a>
+			</#if>
 		</div>
 	</div>
 	<div class="content">
