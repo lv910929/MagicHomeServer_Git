@@ -2,6 +2,7 @@ package com.lencity.magichome.action;
 
 import java.util.List;
 
+import com.lencity.magichome.model.Device;
 import com.lencity.magichome.model.Domain;
 import com.lencity.magichome.service.DeviceService;
 import com.lencity.magichome.service.DomainService;
@@ -105,7 +106,10 @@ public class DomainManagerAction extends BaseAction{
 		
 		addLog("修改了SN码"+sn_code+"的域名");
 		String old_domain=domainService.getDomainBySN(sn_code).getDomain_name();
-		deviceService.changeDomain(old_domain, new_domain);
+		Device device = deviceService.getDeviceByDomain(old_domain);
+		if (device!=null) {
+			deviceService.changeDomain(old_domain, new_domain);
+		}
 		domainService.changeDomain(sn_code, new_domain);
 		init();
 		domains=domainService.getDomainsByPage(domain_name,sn_code,page);
