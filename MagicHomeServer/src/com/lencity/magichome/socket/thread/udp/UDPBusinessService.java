@@ -33,6 +33,7 @@ public class UDPBusinessService {
 			new DeviceProcessThread(servletContext);
 			new ClientIpProcessThread(servletContext);
 			new StatisDeviceThread(servletContext);
+			new AlertCleanThread(servletContext);
 			new CleanMapThread();
 		} catch (SocketException e) {
 			e.printStackTrace();

@@ -52,11 +52,11 @@ public class AlertInfoService {
 		alertInfoDao.deleteByAccount(account);
 	}
 	
-	public void deleteAuto(Date begin_time){
+	public void deleteAuto(){
 		
 		Calendar calendar=Calendar.getInstance();
 		calendar.add(Calendar.MONTH, -1);
-		begin_time=calendar.getTime();
+		Date begin_time=calendar.getTime();
 		alertInfoDao.deleteAuto(begin_time);
 	}
 }

@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -49,18 +51,10 @@ public class Test {
 	
 	public static void main(String[] args) {
 		
-		String httpUrl = "http://apis.baidu.com/3023/ip/ip";
-		String httpArg = "ip=222.188.209.50";
-		String jsonResult = request(httpUrl, httpArg);
-		System.out.println(jsonResult);
-		try {
-			Map<String,Object> map = JsonHelper.toMap(jsonResult);
-			String province = (String) map.get("province");
-			String city = (String) map.get("city");
-			System.out.println(province+city);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
+		Calendar calendar=Calendar.getInstance();
+		calendar.add(Calendar.MONTH, -1);
+		Date begin_time=calendar.getTime();
+		System.out.println(begin_time);
 		
 	}
 
