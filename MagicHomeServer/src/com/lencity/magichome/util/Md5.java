@@ -81,6 +81,6 @@ public class Md5
 	
 	public static void main(String[] args) throws Exception
 	{
-		System.out.println(Md5.md5("123"));
+		System.out.println(Md5.md5("000000"));
 	}
 }

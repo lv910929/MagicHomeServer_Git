@@ -4,7 +4,6 @@ package com.lencity.magichome.socket.thread.udp;
 public class CleanMapThread extends Thread {
 	
 	private final Long time = (12 * 60) * 60 * 1000l;
-//	private final Long time = 5000l;
 	
 	private boolean continueFlag;
 

@@ -104,7 +104,7 @@ public class AccountService {
 		
 		Account account=accountDao.getAccountById(id);
 		if (null != account){
-			account.setPassword(Md5.md5(account.getAccountName() + "123456"));
+			account.setPassword(Md5.md5(account.getAccountName() + "000000"));
 			accountDao.editAccount(account);
 		}
 	}
